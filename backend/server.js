@@ -9,7 +9,9 @@ const { MongoClient } = require("mongodb");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "https://smartbasket-advanced-frontend.vercel.app/"
+}));
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
