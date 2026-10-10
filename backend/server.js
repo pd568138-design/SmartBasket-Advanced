@@ -9,73 +9,84 @@ const { MongoClient } = require("mongodb");
 
 const app = express();
 
-app.use(cors({
-  origin: "https://smartbasket-advanced-frontend.vercel.app/"
-}));
-app.use(express.json());
-
 const PORT = process.env.PORT || 5000;
+
+const allowedOrigins = [
+  "https://smartbasket-advanced-frontend.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests without an Origin header, such as local health checks.
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Origin not allowed by CORS"));
+    },
+  })
+);
+
+app.use(express.json());
 
 let db;
 let client;
 
-async function connect() {
-  if (!process.env.MONGODB_URI) {
-    throw new Error("MONGODB_URI is missing in .env file");
-  }
-
-  client = new MongoClient(process.env.MONGODB_URI);
-  await client.connect();
-
-  db = client.db();
-
-  console.log("MongoDB Atlas connected");
-}
+// Health check
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Smart Basket backend is running",
+  });
+});
 
 app.get("/api/health", (req, res) => {
   res.json({
     ok: true,
-    mongo: !!db,
-    message: db ? "MongoDB connected" : "MongoDB not connected"
+    mongo: Boolean(db),
+    message: db ? "MongoDB connected" : "MongoDB not connected",
   });
 });
 
+// Save or update a product in MongoDB
 app.post("/api/products", async (req, res) => {
   try {
     if (!db) {
       return res.status(503).json({
-        message: "MongoDB is not connected"
+        message: "MongoDB is not connected",
       });
     }
 
-    const {
-      barcode,
-      name,
-      price,
-      category = "General"
-    } = req.body;
-
-    const code = String(barcode || "");
+    const { barcode, name, price, category = "General" } = req.body;
+    const code = String(barcode || "").trim();
+    const productPrice = Number(price);
 
     if (!/^\d{8,14}$/.test(code)) {
       return res.status(400).json({
-        message: "Barcode must be 8-14 digits"
+        message: "Barcode must be 8-14 digits",
+      });
+    }
+
+    if (
+      price === undefined ||
+      price === null ||
+      String(price).trim() === "" ||
+      !Number.isFinite(productPrice) ||
+      productPrice < 0
+    ) {
+      return res.status(400).json({
+        message: "Invalid price",
       });
     }
 
     const product = {
       barcode: code,
-      name: String(name || "Unnamed product"),
-      price: Number(price),
-      category: String(category),
-      updatedAt: new Date()
+      name: String(name || "Unnamed product").trim(),
+      price: productPrice,
+      category: String(category || "General").trim(),
+      updatedAt: new Date(),
     };
-
-    if (!Number.isFinite(product.price) || product.price < 0) {
-      return res.status(400).json({
-        message: "Invalid price"
-      });
-    }
 
     await db.collection("products").updateOne(
       { barcode: code },
@@ -85,85 +96,81 @@ app.post("/api/products", async (req, res) => {
 
     return res.json({
       success: true,
-      product
+      message: "Product saved successfully",
+      product,
     });
   } catch (error) {
     console.error("Product save error:", error.message);
 
     return res.status(500).json({
-      message: error.message
+      message: "Unable to save product",
     });
   }
 });
 
+// Scan a barcode and find its product
 app.post("/api/barcode", async (req, res) => {
   try {
     if (!db) {
       return res.status(503).json({
-        message: "MongoDB is not connected"
+        message: "MongoDB is not connected",
       });
     }
 
-    const {
-      barcode,
-      basketId = "B001"
-    } = req.body;
-
-    const code = String(barcode || "");
+    const { barcode, basketId = "B001" } = req.body;
+    const code = String(barcode || "").trim();
 
     if (!/^\d{8,14}$/.test(code)) {
       return res.status(400).json({
-        message: "Invalid barcode. Enter 8-14 digits."
+        message: "Invalid barcode. Enter 8-14 digits.",
       });
     }
 
     const product = await db.collection("products").findOne({
-      barcode: code
+      barcode: code,
     });
 
     await db.collection("scans").insertOne({
       barcode: code,
       basketId: String(basketId),
       product: product || null,
-      createdAt: new Date()
+      createdAt: new Date(),
     });
 
     if (!product) {
       return res.status(404).json({
         success: false,
         message:
-          "Barcode digits received, but this product is not registered in MongoDB."
+          "Barcode received, but product is not registered in MongoDB.",
       });
     }
 
-    const esp32Url = (process.env.ESP32_URL || "")
-      .replace(/\/$/, "");
+    const esp32Url = (process.env.ESP32_URL || "").replace(/\/$/, "");
 
-    if (
-      !esp32Url ||
-      esp32Url.includes("YOUR_ESP32_IP")
-    ) {
+    // If ESP32 is not configured, still return the MongoDB product.
+    if (!esp32Url || esp32Url.includes("YOUR_ESP32_IP")) {
       return res.json({
         success: true,
-        message:
-          "Product found in MongoDB. ESP32 URL is not configured.",
+        message: "Product found in MongoDB. ESP32 is not configured.",
         product,
-        esp32Connected: false
+        esp32Connected: false,
       });
     }
 
     const url =
-      esp32Url +
-      "/product?barcode=" + encodeURIComponent(code) +
-      "&name=" + encodeURIComponent(product.name) +
-      "&price=" + encodeURIComponent(product.price) +
+      `${esp32Url}/product?barcode=${encodeURIComponent(code)}` +
+      `&name=${encodeURIComponent(product.name)}` +
+      `&price=${encodeURIComponent(product.price)}` +
       "&qty=1";
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      signal: AbortSignal.timeout(5000),
+    });
+
     const responseText = await response.text();
 
     if (!response.ok) {
-      throw new Error("ESP32 HTTP error: " + response.status);
+      throw new Error(`ESP32 HTTP error: ${response.status}`);
     }
 
     return res.json({
@@ -171,31 +178,43 @@ app.post("/api/barcode", async (req, res) => {
       message: "Product found and sent to ESP32.",
       product,
       esp32Connected: true,
-      esp32Response: responseText
+      esp32Response: responseText,
     });
   } catch (error) {
     console.error("Barcode processing error:", error.message);
 
     return res.status(502).json({
       success: false,
-      message: error.message
+      message: "Barcode processing failed",
     });
   }
 });
 
-app.listen(PORT, async () => {
-  console.log("Starting Smart Basket backend...");
+// Start server and connect to MongoDB
+async function startServer() {
+  if (!process.env.MONGODB_URI) {
+    console.error("MONGODB_URI is missing from environment variables.");
+    process.exit(1);
+  }
+
+  client = new MongoClient(process.env.MONGODB_URI, {
+    serverSelectionTimeoutMS: 10000,
+  });
 
   try {
-    await connect();
-    console.log("Backend running on port " + PORT);
+    await client.connect();
+    db = client.db();
+
+    console.log("MongoDB Atlas connected");
+
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Smart Basket backend running on port ${PORT}`);
+    });
   } catch (error) {
-    console.error(
-      "MongoDB connection failed:",
-      error.message
-    );
-    console.error(
-      "Check your Atlas URI, DNS settings, and network connection."
-    );
+    console.error("MongoDB connection failed:", error.message);
+    await client.close().catch(() => {});
+    process.exit(1);
   }
-});
+}
+
+startServer();
