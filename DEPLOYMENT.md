@@ -37,3 +37,11 @@ The Vercel/Render deployment supports the mobile HTTPS camera, OCR and MongoDB p
 
 ## Camera note
 Mobile camera access generally requires HTTPS or localhost. The Vercel URL is HTTPS, so it is the recommended way to test camera capture on a phone. OCR can still fail on blurred, tilted, reflective, or very small digits; retake and confirm the digits before sending.
+
+
+## Basket Selection update
+- Deploy the `backend` folder to the same Render service and keep the existing MongoDB Atlas environment variable `MONGODB_URI`.
+- Set `frontend/js/config.js` to the real Render base URL, for example `https://your-real-service-name.onrender.com` (do not leave the placeholder).
+- Redeploy the existing Vercel frontend with `frontend` as the existing root directory.
+- Open `/api/health` on Render and confirm `mongo: true`, then open `/api/baskets` and confirm B1–B5 are returned.
+- Basket status is stored in MongoDB collection `baskets`; an available basket is atomically changed to `In Use` when selected. The release API is available at `POST /api/baskets/:id/release` and requires the matching `sessionId`.
