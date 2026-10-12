@@ -1,1 +1,6 @@
-if(sessionStorage.getItem("sbLogged")!=="1")location.href="login.html";let u=JSON.parse(localStorage.getItem("sbUser")||"{}");document.getElementById("user").textContent=u.name||"there";let bi=document.getElementById("basketId");bi.value=localStorage.getItem("basketId")||"B001";document.getElementById("basketPreview").textContent=bi.value;document.getElementById("lastBarcode").textContent=localStorage.getItem("lastBarcode")||"Not scanned";bi.oninput=()=>document.getElementById("basketPreview").textContent=bi.value||"B001";document.getElementById("captureProduct").onclick=()=>{localStorage.setItem("basketId",bi.value.trim()||"B001");localStorage.setItem("basketNote",document.getElementById("note").value.trim());location.href="scanner.html"};document.getElementById("logout").onclick=()=>{sessionStorage.clear();location.href="login.html"};
+if(sessionStorage.getItem("sbLogged")!=="1") location.href="login.html";
+const u=JSON.parse(localStorage.getItem("sbUser")||"{}");
+document.getElementById("user").textContent=u.name||"there";
+document.getElementById("basketPreview").textContent=sessionStorage.getItem("activeBasketId")||"Not selected";
+document.getElementById("lastBarcode").textContent=localStorage.getItem("lastBarcode")||"Not scanned";
+document.getElementById("logout").onclick=()=>{sessionStorage.clear();location.href="login.html"};
