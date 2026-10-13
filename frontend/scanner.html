@@ -1,1 +1,71 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capture barcode</title><link rel="stylesheet" href="css/style.css"><script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script></head><body class="appbg"><header class="top"><a href="main.html">← Dashboard</a><span class="badge">BASKET <b id="basketLabel">B001</b></span></header><main class="scanpage"><p class="eyebrow">STEP 1 · CAPTURE</p><h1>Get the barcode <span>in focus.</span></h1><p class="muted">Keep the printed digits below the bars inside the guide. Hold still with bright light.</p><section class="glass camera"><div class="stage"><video id="video" autoplay playsinline muted></video><canvas id="canvas"></canvas><div class="guide"><i></i><i></i><i></i><i></i><span>BARCODE + PRINTED DIGITS</span></div></div><div class="camfoot"><span class="dot"></span><span id="cameraStatus">Requesting camera access…</span><button id="switchCamera" class="round">↻</button></div></section><div class="actions"><button id="capture" class="btn primary">Capture photo ●</button><button id="reload" class="btn secondary">Reload camera</button></div><section id="processing" class="glass panel hidden"><div class="processrow"><div class="spinner"></div><div><p class="eyebrow">IMAGE PROCESSING</p><h3 id="processText">Enhancing image…</h3><p id="processDetail" class="muted tiny">Preparing OCR attempts</p></div></div><div class="progress"><div id="progressBar"></div></div></section><section id="result" class="glass panel hidden"><p class="eyebrow">STEP 2 · REVIEW</p><h2>Extracted barcode digits</h2><p class="muted">Check every digit. Edit if needed, or retake the image.</p><div class="numrow"><input id="barcodeNumber" maxlength="14" inputmode="numeric" aria-label="Extracted barcode number"><span id="validation" class="valid">Waiting</span></div><p id="previewMeta" class="tiny muted"></p><button id="send" class="btn primary">Confirm & add to basket →</button><button id="retake" class="btn secondary">Retake photo</button><p id="sendStatus" class="status"></p></section><section class="glass panel"><p class="eyebrow">YOUR BASKET</p><ul id="cartList" style="padding-left:18px;margin:8px 0"></ul><p><b>Total: ₹<span id="cartTotal">0.00</span></b></p><p class="tiny muted">When you finish, press the FINISH button on the basket. The bill goes to the cashier.</p></section><p class="tiny muted center">Only the extracted digits are sent to your backend.</p></main><script src="js/config.js"></script><script src="js/scanner.js"></script></body></html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Capture barcode</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+</head>
+<body class="appbg">
+<header class="top">
+  <a href="main.html">← Dashboard</a>
+  <span class="badge">BASKET <b id="basketLabel">B001</b></span>
+</header>
+
+<main class="scanpage">
+  <p class="eyebrow">STEP 1 · CAPTURE</p>
+  <h1>Get the barcode <span>in focus.</span></h1>
+  <p class="muted">Keep the printed digits below the bars inside the guide. Hold still with bright light.</p>
+
+  <section class="glass camera">
+    <div class="stage">
+      <video id="video" autoplay playsinline muted></video>
+      <canvas id="canvas"></canvas>
+      <div class="guide"><i></i><i></i><i></i><i></i><span>BARCODE + PRINTED DIGITS</span></div>
+    </div>
+    <div class="camfoot">
+      <span class="dot"></span>
+      <span id="cameraStatus">Requesting camera access…</span>
+      <button id="switchCamera" class="round">↻</button>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button id="capture" class="btn primary">Capture photo ●</button>
+    <button id="reload" class="btn secondary">Reload camera</button>
+  </div>
+
+  <section id="processing" class="glass panel hidden">
+    <div class="processrow">
+      <div class="spinner"></div>
+      <div>
+        <p class="eyebrow">IMAGE PROCESSING</p>
+        <h3 id="processText">Enhancing image…</h3>
+        <p id="processDetail" class="muted tiny">Preparing OCR attempts</p>
+      </div>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+  </section>
+
+  <section id="result" class="glass panel hidden">
+    <p class="eyebrow">STEP 2 · REVIEW</p>
+    <h2>Extracted barcode digits</h2>
+    <p class="muted">Check every digit. Edit if needed, or retake the image.</p>
+    <div class="numrow">
+      <input id="barcodeNumber" maxlength="14" inputmode="numeric" aria-label="Extracted barcode number">
+      <span id="validation" class="valid">Waiting</span>
+    </div>
+    <p id="previewMeta" class="tiny muted"></p>
+    <button id="send" class="btn primary">Confirm & add to basket →</button>
+    <button id="retake" class="btn secondary">Retake photo</button>
+    <p id="sendStatus" class="status"></p>
+  </section>
+
+  <p class="tiny muted center">Only the extracted digits are sent to your backend. When you finish, press the FINISH button on the basket.</p>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/scanner.js"></script>
+</body>
+</html>
