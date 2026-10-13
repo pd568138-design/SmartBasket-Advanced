@@ -10,7 +10,7 @@ const char* WIFI_SSID  = "YOUR_WIFI_NAME";
 const char* WIFI_PASS  = "YOUR_WIFI_PASSWORD";
 const char* SERVER_URL = "https://YOUR-RENDER-SERVICE.onrender.com";  // no trailing /
 const char* DEVICE_KEY = "basket-device-2026";                        // same as Render DEVICE_KEY
-const char* BASKET_ID  = "B1";                                        // B1..B5 (different per ESP32)
+const char* BASKET_ID  = "B1";                                        // B1..B5
 const uint8_t LCD_ADDR = 0x27;                                        // try 0x3F if LCD is blank
 const int   BTN_FINISH = 4;
 // ==============================================
@@ -71,11 +71,6 @@ String nowStr() {
   if (getLocalTime(&t, 50)) { char b[24]; strftime(b, sizeof(b), "%Y-%m-%d %H:%M:%S", &t); return String(b); }
   return "NTP-pending";
 }
-String nowShort() {
-  struct tm t;
-  if (getLocalTime(&t, 50)) { char b[16]; strftime(b, sizeof(b), "%d/%m %H:%M", &t); return String(b); }
-  return "--/-- --:--";
-}
 
 // ---- calculation (all inside ESP32) ----
 void recalcTotal() {
@@ -90,14 +85,14 @@ void addItem(const char* barcode, const char* name, float price) {
   strlcpy(it.barcode, barcode, sizeof(it.barcode));
   strlcpy(it.name, name, sizeof(it.name));
   it.price = price; it.qty = 1;
-  recalcTotal();                         // no details on LCD, only counted
+  recalcTotal();
 }
 
-// ---- screens ----
+// ---- screens: basket ID + final amount only ----
 void showIdle()     { show("SMART BASKET " + String(BASKET_ID), "Ready", "Select this basket", "on your phone"); }
-void showShopping() { show("Hi " + customer, "Products scanned: " + String(itemCount), "", "Press FINISH = bill"); }
+void showShopping() { show("BASKET " + String(BASKET_ID), "", "Scanning...", "Press FINISH"); }
 void drawBill(String status) {
-  show("TOTAL BILL", money(total), "Items:" + String(itemCount) + " " + nowShort(), status);
+  show("BASKET " + String(BASKET_ID), "FINAL AMOUNT", money(total), status);
 }
 
 // ---- network ----
@@ -147,15 +142,12 @@ void pollServer() {
   if (state != ST_SHOPPING) return;
   locationTxt = String((const char*)(doc["location"] | ""));
 
-  bool added = false;
   for (JsonObject it : doc["items"].as<JsonArray>()) {
     long seq = it["seq"] | 0;
     if (seq <= lastSeq) continue;
     lastSeq = seq;
     addItem(it["barcode"] | "", it["name"] | "Item", it["price"] | 0.0f);
-    added = true;
   }
-  if (added) showShopping();
 }
 
 bool sendCheckout() {                     // saves the bill in MongoDB Atlas
