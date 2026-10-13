@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: smart-basket-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: DEVICE_KEY
+        sync: false
+      - key: CASHIER_KEY
+        sync: false
+      - key: STORE_NAME
+        value: SmartBasket Store, Chennai
+      - key: BASKET_TTL_MIN
+        value: "30"

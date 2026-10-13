@@ -1,0 +1,352 @@
+[
+  {
+    "barcode": "8901234000014",
+    "name": "Parle-G Biscuit",
+    "price": 10,
+    "category": "Snacks",
+    "demo": true
+  },
+  {
+    "barcode": "8901234000021",
+    "name": "Good Day Butter",
+    "price": 30,
+    "category": "Snacks",
+    "demo": true
+  },
+  {
+    "barcode": "8901234000038",
+    "name": "Maggi Noodles",
+    "price": 14,
+    "category": "Instant Food",
+    "demo": true
+  },
+  {
+    "barcode": "8901234000045",
+    "name": "Lays Classic 52g",
+    "price": 20,
+    "category": "Snacks",
+    "demo": true
+  },
+  {
+    "barcode": "8901234000052",
+    "name": "Kurkure Masala",
+    "price": 20,
+    "category": "Snacks",
+    "demo": true
+  },
+  {
+    "barcode": "8901234000069",
+    "name": "Coca-Cola 750ml",
+    "price": 40,
+    "category": "Beverages",
+    "demo": true
+  },
+  {
+    "barcode": "8901234000076",
+    "name": "Pepsi 750ml",
+    "price": 40,
+    "category": "Beverages",
+    "demo": true
+  },
+  {
+    "barcode": "8901234000083",
+    "name": "Frooti Mango 200ml",
+    "price": 20,
+    "category": "Beverages",
+    "demo": true
+  },
+  {
+    "barcode": "8901234000090",
+    "name": "Real Juice Mango 1L",
+    "price": 110,
+    "category": "Beverages",
+    "demo": true
+  },
+  {
+    "barcode": "8901234000106",
+    "name": "Bru Instant 50g",
+    "price": 150,
+    "category": "Beverages",
+    "demo": true
+  },
+  {
+    "barcode": "8901234000113",
+    "name": "Tata Salt 1kg",
+    "price": 28,
+    "category": "Grocery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000120",
+    "name": "Sugar 1kg",
+    "price": 48,
+    "category": "Grocery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000137",
+    "name": "Toor Dal 1kg",
+    "price": 160,
+    "category": "Grocery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000144",
+    "name": "Basmati Rice 1kg",
+    "price": 95,
+    "category": "Grocery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000151",
+    "name": "Aashirvaad Atta 5kg",
+    "price": 260,
+    "category": "Grocery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000168",
+    "name": "Fortune Oil 1L",
+    "price": 145,
+    "category": "Grocery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000175",
+    "name": "Sunflower Oil 500ml",
+    "price": 85,
+    "category": "Grocery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000182",
+    "name": "Idhayam Gingelly 500",
+    "price": 230,
+    "category": "Grocery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000199",
+    "name": "Tamarind 250g",
+    "price": 55,
+    "category": "Grocery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000205",
+    "name": "Turmeric Powder 100g",
+    "price": 42,
+    "category": "Spices",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000212",
+    "name": "Chilli Powder 100g",
+    "price": 58,
+    "category": "Spices",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000229",
+    "name": "Coriander Pwd 100g",
+    "price": 40,
+    "category": "Spices",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000236",
+    "name": "Sambar Powder 100g",
+    "price": 60,
+    "category": "Spices",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000243",
+    "name": "Garam Masala 50g",
+    "price": 52,
+    "category": "Spices",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000250",
+    "name": "Mustard Seeds 100g",
+    "price": 30,
+    "category": "Spices",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000267",
+    "name": "Amul Butter 100g",
+    "price": 58,
+    "category": "Dairy",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000274",
+    "name": "Amul Milk 500ml",
+    "price": 29,
+    "category": "Dairy",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000281",
+    "name": "Aavin Curd 500g",
+    "price": 30,
+    "category": "Dairy",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000298",
+    "name": "Amul Cheese Slice",
+    "price": 135,
+    "category": "Dairy",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000304",
+    "name": "Paneer 200g",
+    "price": 90,
+    "category": "Dairy",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000311",
+    "name": "Lifebuoy Soap",
+    "price": 36,
+    "category": "Personal Care",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000328",
+    "name": "Dettol Soap",
+    "price": 42,
+    "category": "Personal Care",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000335",
+    "name": "Colgate 100g",
+    "price": 55,
+    "category": "Personal Care",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000342",
+    "name": "Clinic Plus Shampoo",
+    "price": 5,
+    "category": "Personal Care",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000359",
+    "name": "Dove Shampoo 180ml",
+    "price": 190,
+    "category": "Personal Care",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000366",
+    "name": "Surf Excel 1kg",
+    "price": 135,
+    "category": "Household",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000373",
+    "name": "Vim Dish Gel 500ml",
+    "price": 99,
+    "category": "Household",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000380",
+    "name": "Harpic 500ml",
+    "price": 95,
+    "category": "Household",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000397",
+    "name": "Colin Glass Cleaner",
+    "price": 90,
+    "category": "Household",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000403",
+    "name": "Odonil Freshener",
+    "price": 75,
+    "category": "Household",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000410",
+    "name": "Dairy Milk 50g",
+    "price": 50,
+    "category": "Chocolates",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000427",
+    "name": "KitKat 4 Finger",
+    "price": 40,
+    "category": "Chocolates",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000434",
+    "name": "5 Star Bar",
+    "price": 10,
+    "category": "Chocolates",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000441",
+    "name": "Munch Bar",
+    "price": 10,
+    "category": "Chocolates",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000458",
+    "name": "Oreo Biscuit",
+    "price": 30,
+    "category": "Chocolates",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000465",
+    "name": "Notebook 172 Pages",
+    "price": 60,
+    "category": "Stationery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000472",
+    "name": "Reynolds Pen",
+    "price": 10,
+    "category": "Stationery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000489",
+    "name": "Pencil Pack 10",
+    "price": 50,
+    "category": "Stationery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000496",
+    "name": "Eraser Pack",
+    "price": 20,
+    "category": "Stationery",
+    "demo": false
+  },
+  {
+    "barcode": "8901234000502",
+    "name": "Glue Stick",
+    "price": 25,
+    "category": "Stationery",
+    "demo": false
+  }
+]
