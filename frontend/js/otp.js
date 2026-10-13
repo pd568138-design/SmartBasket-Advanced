@@ -1,1 +1,0 @@
-let otp=sessionStorage.getItem("sbOtp")||"";document.getElementById("demoOtp").textContent=otp||"OTP unavailable";document.getElementById("verify").onclick=()=>{if(document.getElementById("otp").value.trim()!==otp){document.getElementById("error").textContent="Incorrect OTP.";return}sessionStorage.setItem("sbLogged","1");location.href="main.html"};
